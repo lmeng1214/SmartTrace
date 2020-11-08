@@ -1,16 +1,12 @@
-# smart_trace
+# SmartTrace
 
-Contact tracing the Coronavirus using Bluetooth.
+We pass by hundreds of faces every day, thousands a month, possible millions a year. It's impossible to figure out everyone we've been in close proximity to within the past week, and even less so to try and contact everyone. With the Coronavirus pandemic gripping the world, this problem has moved from a theoretical programming interview question for Facebook to a real world issue that we must now try to solve.
 
-## Getting Started
+What SmartTrace aims to create is an anonymized network of devices. By taking in device bluetooth information, we can track who people have been in contact with within any timeframe, any distance, and any location. Simply check the app to see whether or not you have been in proximity of someone who has tested positive, where and when the interaction could have ocurred, whether or not the person was asymptomatic/symptomatic, and how long they have had the virus when they came into close proximity.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Tools Used
+- DART
+- Flutter
+- FlutterBlue
+- <IBM DATABASE SOLUTION; JUNE UPDATE THIS>
+- Android Studio
