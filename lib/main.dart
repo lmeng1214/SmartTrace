@@ -31,8 +31,14 @@ class MyApp extends StatelessWidget {
             //alert: showAlertDialog(context),
             title: Text('Smart Trace'),
           ),
-
-          body: Center(child: MyLayout())),
+          body: Column(
+            children: <Widget>[Image.network('https://www.nhpr.org/sites/nhpr/files/202010/CoronavirusBall_red_CDChighrez.png'),
+              MyLayout()]
+          ),
+        // body: Center(
+          //   child: MyLayout(),
+          //   ),
+          ),
     );
   }
 }
@@ -46,8 +52,9 @@ class MyLayout extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: RaisedButton(
         child: Text('Get started'),
+        color: Colors.blue,
+        textColor: Colors.white,
         onPressed: () {
-
           showAlertDialog(context);
         },
       ),
@@ -64,17 +71,37 @@ class yesButton extends StatelessWidget {
       ),
 
       body: Center(
-        child: ElevatedButton(
+        child: RaisedButton(
           onPressed: () {
-            if (covid == true) {
-              print("I HAVE COVID");
-            } else {
-              print("I AM COVID FREE");
-            }
-
 
             },
-          child: Text('Go back to the start'),
+          child: Text('PLEASE SOCIALLY DISTANCE AND KEEP YOUR MASK ON', style: TextStyle(fontSize: 20)),
+          color: Colors.red,
+          textColor: Colors.white,
+          elevation: 0,
+        ),
+      ),
+    );
+  }
+}
+
+class noButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Main Page"),
+      ),
+
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+
+          },
+          child: Text('Your phone will vibrate when someone with COVID-19 is near you :)', style: TextStyle(fontSize: 20)),
+          color: Colors.blue,
+          textColor: Colors.white,
+          elevation: 0,
         ),
       ),
     );
@@ -99,7 +126,7 @@ showAlertDialog(BuildContext context) {
       covid = false;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => yesButton()),
+        MaterialPageRoute(builder: (context) => noButton()),
       );
     },
   );
