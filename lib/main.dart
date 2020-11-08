@@ -46,25 +46,20 @@ class _nearbyBluetoothState extends State<nearbyBluetooth> {
       body: ListView.builder(
         padding: EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
-          if (i.isOdd) return Divider();
+          if (i.isOdd) return Divider(); // Return a divider between devices.
 
           final index = i ~/ 2;
 
-          if (index >= _nearbyBTDevices.length) {
+          if (i < _nearbyBTDevices.length) { // Return a single bluetooth name.
             return ListTile(
-              title: Text(
-                'NULL',
-                style: _biggerFont,
-              )
+                title: Text(
+                  _nearbyBTDevices[index],
+                  style: _biggerFont,
+                )
             );
           }
 
-          return ListTile(
-            title: Text(
-              _nearbyBTDevices[index],
-              style: _biggerFont,
-            )
-          );
+          return null; // Return null if i is larger than the length.
         }
       )
     );
