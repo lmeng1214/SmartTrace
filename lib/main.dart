@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
@@ -12,57 +13,79 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bluetooth Scanner',
-      home: nearbyBluetooth(),
+      home: NearbyBluetooth(title: 'Bluetooth Scanner'),
     );
   }
 }
 
-class nearbyBluetooth extends StatefulWidget {
+class NearbyBluetooth extends StatefulWidget {
+  NearbyBluetooth({Key key, this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  _nearbyBluetoothState createState() => _nearbyBluetoothState();
+  _NearbyBluetoothState createState() => _NearbyBluetoothState();
+
+  final FlutterBlue flutterBlue = FlutterBlue.instance;
+  final List<BluetoothDevice> _nearbyBTDevicesName = new List<BluetoothDevice>();
 }
 
-class _nearbyBluetoothState extends State<nearbyBluetooth> {
-  FlutterBlue flutterBlue = FlutterBlue.instance;
+class _NearbyBluetoothState extends State<NearbyBluetooth> {
+  @override
 
-  Widget build(BuildContext context) {
-    final _nearbyBTDevices = <String>[];
-    final _biggerFont = TextStyle(fontSize: 18.0);
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text(widget.title),
+    ),
+    body: _buildListViewOfDevices(),
+  );
 
-    flutterBlue.startScan(timeout: Duration(seconds: 5));
+  _addDeviceToList(final BluetoothDevice device) {
+    if (!widget._nearbyBTDevicesName.contains(device)) {
+      setState(() {
+        widget._nearbyBTDevicesName.add(device);
+      });
+    }
+  }
 
-    var subscription = flutterBlue.scanResults.listen((results) {
+  void initState() {
+    super.initState();
+    widget.flutterBlue.scanResults.listen((List<ScanResult> results) {
       for (ScanResult r in results) {
-        _nearbyBTDevices.add('${r.device.name} | RSSI: ${r.rssi}');
+        _addDeviceToList(r.device);
       }
     });
+    widget.flutterBlue.startScan();
+  }
 
-    flutterBlue.stopScan();
+  ListView _buildListViewOfDevices() {
+    List<Container> containers = new List<Container>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Bluetooth Scanner'),
-      ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemBuilder: (context, i) {
-          if (i.isOdd) return Divider(); // Return a divider between devices.
+    for (BluetoothDevice device in widget._nearbyBTDevicesName) {
+      containers.add(
+        Container(
+          height: 50,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Text(device.name == '' ? '(unknown device)' : device.name),
+                    Text(device.id.toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
-          final index = i ~/ 2;
-
-          if (i < _nearbyBTDevices.length) { // Return a single bluetooth name.
-            return ListTile(
-                title: Text(
-                  _nearbyBTDevices[index],
-                  style: _biggerFont,
-                )
-            );
-          }
-
-          return null; // Return null if i is larger than the length.
-        }
-      )
+    return ListView(
+      padding: const EdgeInsets.all(8.0),
+      children: <Widget>[
+        ...containers,
+      ],
     );
   }
 }
-
