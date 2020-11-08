@@ -23,6 +23,8 @@ class NearbyBluetooth extends StatefulWidget {
 
   final String title;
 
+  bool includeUnknown = true;
+
   @override
   _NearbyBluetoothState createState() => _NearbyBluetoothState();
 
@@ -62,6 +64,9 @@ class _NearbyBluetoothState extends State<NearbyBluetooth> {
     List<Container> containers = new List<Container>();
 
     for (BluetoothDevice device in widget._nearbyBTDevicesName) {
+      if (!widget.includeUnknown && device.name == '') {
+        continue;
+      }
       containers.add(
         Container(
           height: 50,
