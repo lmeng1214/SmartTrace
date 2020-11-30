@@ -1,3 +1,5 @@
+Built for HackRPI 2020.
+
 # SmartTrace
 
 We pass by hundreds of faces every day, thousands a month, possible millions a year. It's impossible to figure out everyone we've been in close proximity to within the past week, and even less so to try and contact everyone. With the Coronavirus pandemic gripping the world, this problem has moved from a theoretical programming interview question for Facebook to a real world issue that we must now try to solve.
